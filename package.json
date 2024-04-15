@@ -4,6 +4,6 @@
     "nodemon": "^3.1.0"
   },
   "scripts": {
-    "route": "nodemon routes.js"
+    "routes": "nodemon routes.js"
   }
 }
