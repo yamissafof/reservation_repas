@@ -45,11 +45,6 @@ app.post('/connexion', (req,res) => {
     }
 })
 
-app.post('/testPost', (requete, resultat) => {
-    let donneesRecues = requete.body;
-    resultat.send('Données reçues : ' + JSON.stringify(donneesRecues))
-})
-
 //----------------//
 
 console.log(`Le serveur tourne sur mon poste : http://${hostname}:${port}/`)
