@@ -16,6 +16,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
+
 const hostname = '127.0.0.1'
 const port = 3000
 
@@ -23,15 +25,17 @@ const port = 3000
 
 app.get('/', (requete, resultat) => {
     resultat.sendFile(path.join(__dirname+'/html/accueil.html'));
-    console.log('Page d\'accueil du site sur la route : /')
+    console.log('Page d\'accueil du site sur la route : /');
 })
 
 app.get('/inscription', (requete, resultat) => {
     resultat.sendFile(path.join(__dirname+'/html/inscription.html'));
+    console.log('Page d\'inscription sur la route : /inscription');
 })
 
 app.get('/connexion', (requete, resultat) => {
     resultat.sendFile(path.join(__dirname+'/html/connexion.html'));
+    console.log('Page de connexion sur la route : /connexion');
 })
 
 app.post('/connexion', (req,res) => {
