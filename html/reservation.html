@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation</title>
+</head>
+<body>
+<h1>Menu de réservation</h1>
+
+<!-- Plats prédéfinis -->
+<form action="/reserver" method="post">
+    <h2>Entrées</h2>
+    <ul>
+        <li><input type="radio" name="entree" value="Salade César" data-prix="9"> Salade César - 9€</li>
+        <li><input type="radio" name="entree" value="Carpaccio de boeuf" data-prix="7"> Carpaccio de boeuf - 7€</li>
+        <li><input type="radio" name="entree" value="Oeufs mimosa" data-prix="9"> Oeufs mimosa - 9€</li>
+        <li><input type="radio" name="entree" value="Beignets de calamars" data-prix="8"> 8 Beignets de calamars - 8€</li>
+    </ul>
+
+    <h2>Plats principaux</h2>
+    <ul>
+        <li><input type="radio" name="plat" value="Poulet rôti" data-prix="15"> Poulet rôti - 15€</li>
+        <li><input type="radio" name="plat" value="Pâtes carbonara" data-prix="12"> Pâtes carbonara - 12€</li>
+        <li><input type="radio" name="plat" value="Lasagnes" data-prix="15"> Lasagnes - 15€</li>
+        <li><input type="radio" name="plat" value="Burger végétariens" data-prix="15"> Burger végétariens - 15€</li>
+    </ul>
+
+    <h2>Desserts</h2>
+    <ul>
+        <li><input type="radio" name="dessert" value="Tarte aux pommes" data-prix="6"> Tarte aux pommes - 6€</li>
+        <li><input type="radio" name="dessert" value="Mousse au chocolat" data-prix="5"> Mousse au chocolat - 5€</li>
+        <li><input type="radio" name="dessert" value="Tiramisu" data-prix="6"> Tiramisu - 6€</li>
+        <li><input type="radio" name="dessert" value="Salade de fruit" data-prix="6"> Salade de fruit - 6€</li>
+    </ul>
+
+    <h2>Boissons</h2>
+    <ul>
+        <li><input type="radio" name="boisson" value="Eau minérale" data-prix="2"> Eau minérale - 2€</li>
+        <li><input type="radio" name="boisson" value="Soda" data-prix="3"> Soda - 3€</li>
+        <li><input type="radio" name="boisson" value="Bissap" data-prix="3"> Bissap - 3€</li>
+        <li><input type="radio" name="boisson" value="Limonade" data-prix="2"> Limonade - 2€</li>
+    </ul>
+
+    <!-- Champs pour la date et l'heure de réservation -->
+    <label for="date">Date de réservation:</label>
+    <input type="date" id="date" name="date" min="<?= (new Date()).toISOString().split('T')[0] ?>"><br>
+
+    <label for="heure">Heure de réservation:</label>
+    <select id="heure" name="heure">
+        <!-- Options générées dynamiquement -->
+    </select><br>
+
+    <!-- Bouton de soumission -->
+    <input type="submit" value="Réserver">
+</form>
+
+<!-- JavaScript pour générer les options de l'heure de réservation -->
+<script>
+    const selectHeure = document.getElementById('heure');
+
+    // Générer les options de la liste déroulante pour les heures de 12h à 23h avec des intervalles de 20 minutes
+    for (let heure = 12; heure <= 23; heure++) {
+        for (let minute = 0; minute < 60; minute += 20) {
+            // Ne pas ajouter d'options pour les heures après 23h
+            if (heure === 23 && minute > 0) {
+                break;
+            }
+
+            const heureFormat = heure.toString().padStart(2, '0'); // Ajouter un zéro devant les heures < 10
+            const minuteFormat = minute.toString().padStart(2, '0'); // Ajouter un zéro devant les minutes < 10
+            const option = document.createElement('option');
+            option.value = `${heureFormat}:${minuteFormat}`;
+            option.textContent = `${heureFormat}:${minuteFormat}`;
+            selectHeure.appendChild(option);
+        }
+    }
+</script>
+</body>
+</html>
