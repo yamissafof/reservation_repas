@@ -3,11 +3,20 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import session from 'express-session';
 import bcrypt from 'bcrypt';
+import mysql from 'mysql2';
 import { fileURLToPath } from 'url';
 import { saveUserToDatabase, isPasswordComplex, authenticateUser } from './auth.js';
 import { requireLogin } from './sessionMiddleware.js';
 
 const app = express();
+
+// Configuration de la connexion à la base de données
+const connection = await mysql.createConnection({
+    host: 'localhost',
+    user: 'yamissa',
+    password: 'projet*enc1',
+    database: 'reservation_repas'
+});
 
 // Définir __dirname en utilisant import.meta.url
 const __filename = fileURLToPath(import.meta.url);

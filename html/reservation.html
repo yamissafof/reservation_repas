@@ -9,7 +9,7 @@
 <h1>Menu de réservation</h1>
 
 <!-- Plats prédéfinis -->
-<form action="/reserver" method="post">
+<form action="/enregistrer-commande" method="post">
     <h2>Entrées</h2>
     <ul>
         <li><input type="radio" name="entree" value="Salade César" data-prix="9"> Salade César - 9€</li>
@@ -61,7 +61,7 @@
 
     // Générer les options de la liste déroulante pour les heures de 12h à 23h avec des intervalles de 20 minutes
     for (let heure = 12; heure <= 23; heure++) {
-        for (let minute = 0; minute < 60; minute += 20) {
+        for (let minute = 0; minute < 60; minute += 30) {
             // Ne pas ajouter d'options pour les heures après 23h
             if (heure === 23 && minute > 0) {
                 break;
