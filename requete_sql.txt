@@ -13,4 +13,24 @@ COLLATE='armscii8_general_ci'
 ENGINE=InnoDB
 ;
 
-- * -
+- Création de la table commandes -
+
+CREATE TABLE `commandes` (
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`utilisateur_id` INT(10) NOT NULL,
+	`entree` VARCHAR(255) NOT NULL COLLATE 'armscii8_general_ci',
+	`plat` VARCHAR(255) NOT NULL COLLATE 'armscii8_general_ci',
+	`dessert` VARCHAR(255) NOT NULL COLLATE 'armscii8_general_ci',
+	`boisson` VARCHAR(255) NOT NULL COLLATE 'armscii8_general_ci',
+	`date_reservation` DATE NOT NULL,
+	`heure_reservation` TIME NOT NULL,
+	`prix_total` FLOAT NULL DEFAULT NULL,
+	`date_creation` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`) USING BTREE,
+	INDEX `utilisateur_id` (`utilisateur_id`) USING BTREE,
+	CONSTRAINT `commandes_ibfk_1` FOREIGN KEY (`utilisateur_id`) REFERENCES `authentification` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)
+COLLATE='armscii8_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=7
+;
