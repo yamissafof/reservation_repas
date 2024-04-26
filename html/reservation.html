@@ -9,21 +9,21 @@
 <h1>Menu de réservation</h1>
 
 <!-- Plats prédéfinis -->
-<form action="/enregistrer-commande" method="post">
+<form id="reservation_form" action="/enregistrer-commande" method="post">
     <h2>Entrées</h2>
     <ul>
-        <li><input type="radio" name="entree" value="Salade César" data-prix="9"> Salade César - 9€</li>
+        <li><input type="radio" name="entree" value="Salade Cesar" data-prix="9"> Salade César - 9€</li>
         <li><input type="radio" name="entree" value="Carpaccio de boeuf" data-prix="7"> Carpaccio de boeuf - 7€</li>
         <li><input type="radio" name="entree" value="Oeufs mimosa" data-prix="9"> Oeufs mimosa - 9€</li>
-        <li><input type="radio" name="entree" value="Beignets de calamars" data-prix="8"> 8 Beignets de calamars - 8€</li>
+        <li><input type="radio" name="entree" value="Beignets de calamars" data-prix="8"> Beignets de calamars - 8€</li>
     </ul>
 
     <h2>Plats principaux</h2>
     <ul>
-        <li><input type="radio" name="plat" value="Poulet rôti" data-prix="15"> Poulet rôti - 15€</li>
-        <li><input type="radio" name="plat" value="Pâtes carbonara" data-prix="12"> Pâtes carbonara - 12€</li>
+        <li><input type="radio" name="plat" value="Poulet roti" data-prix="15"> Poulet rôti - 15€</li>
+        <li><input type="radio" name="plat" value="Pates carbonara" data-prix="12"> Pâtes carbonara - 12€</li>
         <li><input type="radio" name="plat" value="Lasagnes" data-prix="15"> Lasagnes - 15€</li>
-        <li><input type="radio" name="plat" value="Burger végétariens" data-prix="15"> Burger végétariens - 15€</li>
+        <li><input type="radio" name="plat" value="Burger vegetariens" data-prix="15"> Burger végétariens - 15€</li>
     </ul>
 
     <h2>Desserts</h2>
@@ -36,30 +36,36 @@
 
     <h2>Boissons</h2>
     <ul>
-        <li><input type="radio" name="boisson" value="Eau minérale" data-prix="2"> Eau minérale - 2€</li>
+        <li><input type="radio" name="boisson" value="Eau minerale" data-prix="2"> Eau minérale - 2€</li>
         <li><input type="radio" name="boisson" value="Soda" data-prix="3"> Soda - 3€</li>
         <li><input type="radio" name="boisson" value="Bissap" data-prix="3"> Bissap - 3€</li>
         <li><input type="radio" name="boisson" value="Limonade" data-prix="2"> Limonade - 2€</li>
     </ul>
 
     <!-- Champs pour la date et l'heure de réservation -->
-    <label for="date">Date de réservation:</label>
-    <input type="date" id="date" name="date" min="<?= (new Date()).toISOString().split('T')[0] ?>"><br>
+    <label for="date_reservation">Date de réservation:</label>
+    <input type="date" id="date_reservation" name="date_reservation" min="<?= (new Date()).toISOString().split('T')[0] ?>"><br>
 
-    <label for="heure">Heure de réservation:</label>
-    <select id="heure" name="heure">
+    <label for="heure_reservation">Heure de réservation:</label>
+    <select id="heure_reservation" name="heure_reservation">
         <!-- Options générées dynamiquement -->
     </select><br>
+
+    <!-- Champ caché pour le prix total -->
+    <input type="hidden" id="prix_total" name="prix_total">
+
+    <!-- Div pour afficher le prix total -->
+    <div id="prix_total_affiche"></div>
 
     <!-- Bouton de soumission -->
     <input type="submit" value="Réserver">
 </form>
 
-<!-- JavaScript pour générer les options de l'heure de réservation -->
+<!-- JavaScript pour générer les options de l'heure de réservation et calculer le prix total -->
 <script>
-    const selectHeure = document.getElementById('heure');
+    const selectHeure = document.getElementById('heure_reservation');
 
-    // Générer les options de la liste déroulante pour les heures de 12h à 23h avec des intervalles de 20 minutes
+    // Générer les options de la liste déroulante pour les heures de 12h à 23h avec des intervalles de 30 minutes
     for (let heure = 12; heure <= 23; heure++) {
         for (let minute = 0; minute < 60; minute += 30) {
             // Ne pas ajouter d'options pour les heures après 23h
@@ -75,6 +81,39 @@
             selectHeure.appendChild(option);
         }
     }
+
+    // Fonction pour calculer et afficher le prix total
+    const formulaire = document.getElementById('reservation_form');
+    const prixTotalInput = document.getElementById('prix_total');
+    const prixTotalAffiche = document.getElementById('prix_total_affiche');
+
+    formulaire.addEventListener('submit', (event) => {
+        event.preventDefault(); // Empêcher l'envoi du formulaire par défaut
+
+        // Récupérer les éléments sélectionnés
+        const entree = formulaire.querySelector('input[name="entree"]:checked');
+        const plat = formulaire.querySelector('input[name="plat"]:checked');
+        const dessert = formulaire.querySelector('input[name="dessert"]:checked');
+        const boisson = formulaire.querySelector('input[name="boisson"]:checked');
+
+        // Vérifier si tous les éléments sont sélectionnés
+        if (entree && plat && dessert && boisson) {
+            // Calculer le prix total en additionnant les prix des éléments sélectionnés
+            const prixTotal = Number(entree.dataset.prix) + Number(plat.dataset.prix) + Number(dessert.dataset.prix) + Number(boisson.dataset.prix);
+
+            // Mettre à jour le champ prix_total dans le formulaire
+            prixTotalInput.value = prixTotal;
+
+            // Afficher le prix total sur la page
+            prixTotalAffiche.textContent = `Prix total : ${prixTotal} €`;
+
+            // Soumettre le formulaire
+            formulaire.submit();
+        } else {
+            // Afficher un message d'erreur si tous les éléments ne sont pas sélectionnés
+            alert('Veuillez sélectionner une option pour chaque élément.');
+        }
+    });
 </script>
 </body>
 </html>
